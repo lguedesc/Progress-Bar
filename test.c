@@ -4,18 +4,33 @@
 #include <stdbool.h>
 #include "progress_monitor.h"
 
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+#endif
+
+void portable_sleep(int n) {
+    #ifdef _WIN32
+        Sleep(n);
+    #else
+        usleep(n);
+    #endif
+}
+
 void test_single_bar(void) {
-    unsigned long int N = 50007;
+    unsigned long int N = 500;
     int bar_len = TERMINAL_LEN - 20;
     for (int i = 0; i <= N; i++) {
         update_bar(i, N, bar_len);
+        portable_sleep(20000);
     }
     printf("\n");
 }
 
 void test_thread_bars(void) {
     // Determine the number of steps in the for loop
-    unsigned long int N = 50007;
+    unsigned long int N = 5000;
     // Get number of threads 
     int n_threads = get_num_threads();
     // Determine bar length
@@ -49,13 +64,17 @@ void test_thread_bars(void) {
             {
                 update_thread_bars(thread, n_threads, bar_len, &all_done);
             }
+            portable_sleep(15000);
         }
     }
 }
 
 int main(void) {
-    printf("SINGLE PROGRESS MONITOR TEST:\n");
+    printf("\nSINGLE PROGRESS MONITOR TEST:\n");
+    printf("\n");
     test_single_bar();
-    printf("PROGRESS MONITOR FOR EACH THREAD:\n");
+    printf("\nPROGRESS MONITOR FOR EACH THREAD:\n");
+    printf("\n");
     test_thread_bars();
+    printf("\n");
 }

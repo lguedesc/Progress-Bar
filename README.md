@@ -1,6 +1,9 @@
 # Progress Monitor Bar in C
 
-This repository contains a small C library that implements simple progress monitor bars for terminal-based applications. It also supports multi-threading monitoting with openMP library.
+This repository contains a small C library that implements simple progress monitor bars for terminal-based applications. It also supports multi-threading monitoring with openMP library.
+
+![Alt Text](gifs/single_bar.gif)
+![Alt Text](gifs/multi-thread_bar.gif)
 
 ## Known Issues
 
